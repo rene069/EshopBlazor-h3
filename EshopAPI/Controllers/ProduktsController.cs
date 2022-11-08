@@ -79,26 +79,26 @@ namespace EshopAPI.Controllers
             }
         }
 
-        /// <summary>
-        /// Gets a Single Produkt by Id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("GetProduktById")]
-        public ActionResult GetProduktDTOById(int id)
-        {
-            try
-            {                
-                var produkt = _productService.GetProduktById(id);
-                return Ok(_productService.GetProduktById(id));
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                                    "Error can't get Data or no data with that Id");
-            }
-        }
+        ///// <summary>
+        ///// Gets a Single Produkt by Id
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
+        //[HttpGet]
+        //[Route("GetProduktById")]
+        //public ActionResult GetProduktDTOById(int id)
+        //{
+        //    try
+        //    {                
+        //        var produkt = _productService.GetProduktById(id);
+        //        return Ok(_productService.GetProduktById(id));
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError,
+        //                            "Error can't get Data or no data with that Id");
+        //    }
+        //}
 
         /// <summary>
         /// Create Produkt

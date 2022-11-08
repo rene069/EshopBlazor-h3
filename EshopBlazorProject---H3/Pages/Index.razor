@@ -2,6 +2,8 @@
 @using EshopBlazor.Models
 @using EshopBlazor.Services
 @inject IProduktServices _Produktservices
+@inject NavigationManager Navigation
+
 
 <PageTitle>Index</PageTitle>
 
@@ -19,6 +21,7 @@
             <p class="card-text">@item.Description</p>
             <p class="card-text">@item.Price Kr.</p>            
                 <a class="btn btn-primary">Go to Product</a>
+            <button class="btn btn-sm btn-primary" @onclick='() => Navigation.NavigateTo($"/EditProdukt/{item.ProduktId}")'>Edit</button>
                 <button type="submit" asp-route-productId="@item.ProduktId" asp-page-handler="AddToCart" class="btn btn-primary">Add to Cart</button>
         </div>
     </div>

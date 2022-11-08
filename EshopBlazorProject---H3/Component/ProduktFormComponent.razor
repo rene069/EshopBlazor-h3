@@ -72,7 +72,7 @@
     {
         if (Id != 0)
         {
-            //todoItem = await _TodoService.GetTodoItemAsync(ItemId);
+            produkt = await _ProduktServices.GetProduktByIdAsync(Id);
         }
         Brands = await _ProduktServices.GetBrandAsync();
         Types = await _ProduktServices.GetTypesAsync();
