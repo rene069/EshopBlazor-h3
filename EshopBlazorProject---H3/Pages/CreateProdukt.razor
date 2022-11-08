@@ -1,0 +1,81 @@
+﻿@page "/CreateProdukt"
+@using EshopBlazor.Models
+@using EshopBlazor.Services
+@inject IProduktServices _ProduktServices
+<h3>CreateProdukt</h3>
+
+<EditForm Model="produkt" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-outline mb-4">
+        <InputText @bind-Value="produkt.ProduktName" id="Produktname" class="form-control" />
+        <label class="form-label" for="Produktname">Produktname</label>
+    </div>
+
+    <div class="form-outline mb-4">
+        <InputText id="Description" @bind-Value="produkt.Description" class="form-control" />
+        <label class="form-label" for="Description">Description</label>
+    </div>
+
+
+    <div class="form-outline mb-4">
+        <InputNumber id="Price" @bind-Value="produkt.Price" class="form-control" />
+        <label class="form-label" for="Price">Price</label>
+
+    </div>
+
+    <div class="form-outline mb-4">
+        <InputFile accept="image/png,image/jpeg,image/jpg" id="Image" asp-for="formFile" class="form-control" />
+        <label class="form-label" for="Image">Image</label>
+    </div>
+
+
+    <div class="form-outline mb-4">
+
+        <select @bind="produkt.BrandId" class="form-select" id="Brand">
+            <option value=""></option>
+            @foreach (var item in Brands)
+            {
+                <option value="@item.BrandId">@item.BrandName</option>
+            }
+        </select>
+        <label class="form-label" for="Brand">Brand</label>
+    </div>
+
+
+    <div class="form-outline mb-4">
+
+        <select @bind="produkt.TypesId" class="form-select" id="Types">
+            <option value=""></option>
+            @foreach (var item in Types)
+            {
+                <option value="@item.TypesId">@item.TypeName</option>
+            }
+        </select>
+        <label class="form-label" for="Types">Types</label>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-3">Create</button>
+</EditForm>
+
+@code {
+    public Produkt produkt { get; set; } = new();
+
+    public List<BrandDTO> Brands { get; set; } = new();
+    public List<TypesDTO> Types { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Brands = await _ProduktServices.GetBrandAsync();
+        Types = await _ProduktServices.GetTypesAsync();
+
+        await base.OnInitializedAsync();
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        await _ProduktServices.CreateProduktAsync(produkt);
+    }
+
+}

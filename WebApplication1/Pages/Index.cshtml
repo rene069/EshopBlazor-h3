@@ -1,0 +1,55 @@
+﻿@page
+@using ServiceLayer.QueryObjects
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div asp-validation-summary="All"></div>
+<form>
+    <p>
+        <select asp-for="BrandName" asp-items="Model.BrandList">
+            <option value="">All</option>
+        </select>
+        <select asp-for="TypeName" asp-items="Model.TypeList">
+            <option value="">All</option>
+        </select>
+        <select asp-for="OrderOptions.OrderByOptions"
+                asp-items="@Html.GetEnumSelectList<OrderByOptions>()">
+        </select>
+        ProduktName: <input type="text" asp-for="SearchString" />
+
+        <input class="btn btn-primary" type="submit" value="Filter" />
+    </p>
+</form>
+
+<div class="d-flex">
+    @foreach (var item in Model.Produkts)
+    {
+        <div class="card" style="width: 18rem;">
+            <img src="@item.ImageURL" asp-append-version="true" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@item.ProduktName</h5>
+                <p class="card-text">@item.Description</p>
+                <p class="card-text">@item.Price Kr.</p>
+                <form method="post">
+                    <a asp-route-id="@item.ProduktId" asp-page="/Product" class="btn btn-primary">Go to Product</a>
+                    <button type="submit" asp-route-productId="@item.ProduktId" asp-page-handler="AddToCart" class="btn btn-primary">Add to Cart</button>
+                </form>
+            </div>
+        </div>
+    }
+</div>
+@if (Model.Count > 0)
+{
+    <div>
+        <ul class="pagination">
+            @for (var i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a asp-page="" asp-route-currentpage="@i" class="page-link">@i</a>
+                </li>
+            }
+        </ul>
+    </div>
+}

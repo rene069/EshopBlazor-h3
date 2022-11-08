@@ -1,0 +1,22 @@
+﻿@page "/Produkt/{id:int}"
+@using EshopBlazor.Models
+
+<h3>ProduktDetail</h3>
+
+@code {
+
+    [Parameter]
+    public int id { get; set; }
+
+    public Produkt Produkt { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Produkt = await _TodoService.GetTodoItemAsync(ItemId);
+
+        
+
+        await base.OnInitializedAsync();
+    }
+}

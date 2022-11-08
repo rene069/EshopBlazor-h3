@@ -1,0 +1,52 @@
+﻿@page "/EditProdukt/{Id:int}"
+<h3>EditProdukt</h3>
+
+@*<EditForm>
+    <input type="hidden" asp-for="Produkt.ProduktId" />
+    <div class="form-outline mb-4">
+        <input type="text" asp-for="Produkt.ProduktName" id="Produktname" class="form-control" />
+        <label class="form-label" for="Produktname">Produktname</label>
+    </div>
+
+    <div class="form-outline mb-4">
+        <input type="text" id="Description" asp-for="Produkt.Description" class="form-control" />
+        <label class="form-label" for="Description">Description</label>
+    </div>
+
+
+    <div class="form-outline mb-4">
+        <input type="number" id="Price" asp-for="Produkt.Price" class="form-control" />
+        <label class="form-label" for="Price">Price</label>
+
+    </div>
+
+    <div class="form-outline mb-4">
+        <input type="file" id="Image" accept="image/png,image/jpeg,image/jpg" asp-for="formFile" class="form-control" />
+        <label class="form-label" for="Image">Image</label>
+    </div>
+
+
+    <div class="form-outline mb-4">
+
+        <select asp-for="BrandName" class="form-select" id="Brand" asp-items="Model.BrandList">
+        </select>
+        <label class="form-label" for="Brand">Brand</label>
+    </div>
+
+
+    <div class="form-outline mb-4">
+        <select asp-for="TypeName" class="form-select" id="Type" asp-items="Model.TypeList">
+        </select>
+        <label class="form-label" for="Type">Type</label>
+    </div>
+    <input type="hidden" asp-for="Produkt.Brand" />
+
+    <input type="hidden" asp-for="Produkt.Type" />
+    <input type="hidden" asp-for="Produkt.UserProdukt" />
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-3">Edit</button>
+</EditForm>*@
+@code {
+    [Parameter]
+    public int Id { get; set; }
+}

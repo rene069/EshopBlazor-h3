@@ -1,0 +1,38 @@
+﻿@page "/"
+@using EshopBlazor.Models
+@using EshopBlazor.Services
+@inject IProduktServices _Produktservices
+
+<PageTitle>Index</PageTitle>
+
+
+
+
+
+
+@foreach (var item in produktDTOs)
+{
+    <div class="card" style="width: 18rem;">
+        <img src="@item.ImageURL" asp-append-version="true" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">@item.ProduktName</h5>
+            <p class="card-text">@item.Description</p>
+            <p class="card-text">@item.Price Kr.</p>            
+                <a class="btn btn-primary">Go to Product</a>
+                <button type="submit" asp-route-productId="@item.ProduktId" asp-page-handler="AddToCart" class="btn btn-primary">Add to Cart</button>
+        </div>
+    </div>
+}
+
+
+@code{
+    public List<Produkt> produktDTOs = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        produktDTOs = await _Produktservices.GetProduktsAsync();
+
+        await base.OnInitializedAsync();
+    }
+}

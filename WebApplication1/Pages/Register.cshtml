@@ -1,0 +1,51 @@
+﻿@page
+@model Eshop.Pages.RegisterModel
+@{
+}
+
+<div asp-validation-summary="All"></div>
+
+<div class="tab-pane">
+        <form method="post">
+            <!-- Name input -->
+            <div class="form-outline mb-4">
+                <input type="text" asp-for="Username" id="registerName" class="form-control" />
+                <label class="form-label" for="registerName">Username</label>
+            </div>
+
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+                <input type="email" id="registerEmail" asp-for="Email" class="form-control" />
+                <label class="form-label" for="registerEmail">Email</label>
+            </div>
+
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+                <input type="password" id="registerPassword" asp-for="Password" class="form-control" />
+                <label class="form-label" for="registerPassword">Password</label>
+
+            </div>
+
+            <!-- Repeat Password input -->
+            <div class="form-outline mb-4">
+                <input type="password" id="registerRepeatPassword" asp-for="RepeatPass" class="form-control" />
+                <label class="form-label" for="registerRepeatPassword">Repeat password</label>
+            </div>
+
+            <!-- Address input -->
+            <div class="form-outline mb-4">
+                <input type="text" id="Adress" asp-for="Address" class="form-control" />
+                <label class="form-label" for="Adress">Adress</label>
+            </div>
+
+            <!--Zip input -->
+            <div class="form-outline mb-4">
+                <input type="number" id="Zip" asp-for="Zip" class="form-control" />
+                <label class="form-label" for="Zip">Zip</label>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block mb-3">Sign in</button>
+        </form>
+    </div>
+
