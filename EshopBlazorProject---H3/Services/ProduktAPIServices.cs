@@ -45,8 +45,6 @@ namespace EshopBlazor.Services
         {
             var items = await _httpClient.GetFromJsonAsync<ProduktDTO>($"/Produkts/GetProduktById?id={id}");
 
-
-
             return items;
         }
 

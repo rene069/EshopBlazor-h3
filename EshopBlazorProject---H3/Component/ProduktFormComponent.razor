@@ -1,4 +1,6 @@
-﻿@inject IProduktServices _ProduktServices
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
+@inject IProduktServices _ProduktServices
+
 <h3>ProduktFormComponent</h3>
 
 
@@ -23,7 +25,7 @@
     </div>
 
     <div class="form-outline mb-4">
-        <InputFile accept="image/png,image/jpeg,image/jpg" id="Image" asp-for="formFile" class="form-control" />
+        <InputFile accept="image/png,image/jpeg,image/jpg" OnChange="OnInputFileChange" id="Image" class="form-control" />
         <label class="form-label" for="Image">Image</label>
     </div>
 
@@ -64,6 +66,9 @@
     public List<BrandDTO> Brands { get; set; } = new();
     public List<TypesDTO> Types { get; set; } = new();
 
+    long maxAllowedSize = 2000000000;
+    public IBrowserFile Upload { get; set; }
+
     [Parameter] public int Id { get; set; } = 0;
 
     [Parameter] public EventCallback<ProduktDTO> ValidSubmit { get; set; }
@@ -78,8 +83,33 @@
         await base.OnInitializedAsync();
     }
 
+    private void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        Upload = e.File;
+        this.StateHasChanged();
+    }
+
     public async Task HandleValidSubmit()
     {
+
+        if (Upload != null)
+        {
+            var path = $"wwwroot\\{Upload.Name}";
+            using (Stream stream = Upload.OpenReadStream(maxAllowedSize))
+            {
+                FileStream fs = File.Create(path);
+                await stream.CopyToAsync(fs);
+                stream.Close();
+                fs.Close();
+
+
+            }
+
+            produkt.ImageURL = path;
+        }
+        
         await ValidSubmit.InvokeAsync(produkt);
     }
 }
+
+    @*C:\Users\renep\Source\Repos\rene069\EshopBlazor-h3\EshopBlazorProject---H3\wwwroot\Images*@
