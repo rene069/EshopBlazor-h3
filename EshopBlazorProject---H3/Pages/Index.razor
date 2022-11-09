@@ -46,8 +46,10 @@
 
     public async Task AddToCart(ProduktDTO produktDTO)
     {
+        cart = await localStore.GetItemAsync<Cart>("cart");
         cart.Produkts.Add(produktDTO);
         await localStore.SetItemAsync<Cart>("cart",cart);
+        
 
     }
 

@@ -1,7 +1,71 @@
 ﻿@page "/Shoppingcart"
 
 <h3>Shoppingcart</h3>
+<div class="col-lg-6 px-5 py-4">
+
+
+    @if (Cart != null)
+    {
+        <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Your products</h3>
+        <form method="post">
+            @foreach (var item in Cart.Produkts)
+            {
+                <div class="d-flex align-items-center mb-5">
+
+                    <div class="flex-shrink-0">
+                        <img src="@item.ImageURL"
+                     class="img-fluid" style="width: 150px;" alt="Generic placeholder image">
+                    </div>
+
+                   
+                    <div class="flex-grow-1 ms-3">
+                        <a href="#!" class="float-end text-black"><i class="fas fa-times"></i></a>
+                        <h5 class="text-primary">@item.ProduktName</h5>
+                        <h6 style="color: #9e9e9e;">Color: white</h6>
+                        <div class="d-flex align-items-center">
+                            <p class="fw-bold mb-0 me-5 pe-3">pr Stk. @item.Price</p>
+                            <div class="def-number-input number-input safari_only">
+                                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                                class="minus"></button>
+                               @* <input class="quantity fw-bold text-black" asp-for="@Model.NewUserProdukts[counter].Quantity" value="@item.Quantity" min="0"*@
+                            @*   type="number">*@
+                                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                class="plus"></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            }
+            <button type="submit" class="btn btn-primary" asp-page-handler="Update">Update</button>
+        </form>
+        <hr class="mb-4" style="height: 2px; background-color: #1266f1; opacity: 1;">
+
+
+        <div class="d-flex justify-content-between p-2 mb-2" style="background-color: #e1f5fe;">
+            <h5 class="fw-bold mb-0">Total: @Cart.Total</h5>
+            <shopping-cart-total user-produkts="Model.UserProdukts"></shopping-cart-total>
+        </div>
+
+    }
+    else
+    {
+        <h5>Your ShoppingCart is empty</h5>
+    }
+
+</div>
+
 
 @code {
 
+    public Cart Cart { get; set; } = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Cart = await localStore.GetItemAsync<Cart>("cart");
+
+    }
 }
