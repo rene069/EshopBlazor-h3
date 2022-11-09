@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Blazored.Toast;
 using EshopBlazor;
 using EshopBlazor.Services;
@@ -17,6 +18,7 @@ namespace EshopBlazor
             builder.Services.AddScoped<IProduktServices,ProduktAPIServices>();
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddHttpClient<IProduktServices, ProduktAPIServices>(config => config.BaseAddress = AppConfig.Todo_BaseAddress);
+            builder.Services.AddBlazoredLocalStorage();
 
             await builder.Build().RunAsync();
         }
