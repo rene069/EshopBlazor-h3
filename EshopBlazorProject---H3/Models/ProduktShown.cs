@@ -1,6 +1,6 @@
-﻿namespace ServiceLayer.DTO
+﻿namespace EshopBlazor.Models
 {
-    public class ProduktDto
+    public class ProduktShown
     {
         public int ProduktId { get; set; }
         public string ProduktName { get; set; }
@@ -10,6 +10,5 @@
         public string ImageUrl { get; set; }
         public string TypeName { get; set; }
         public bool IsSoftDeleted { get; set; }
-
     }
 }

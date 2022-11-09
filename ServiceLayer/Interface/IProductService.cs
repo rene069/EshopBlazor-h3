@@ -20,6 +20,7 @@ namespace ServiceLayer.Interface
 
         public List<Produkt> FindProdukts(string searchString);
         List<ProduktDto> ProduktsToProduktListDto();
+        ProduktDto ProduktToDTO(int id);
         public int GetCount();
 
         public bool DoesProduktExist(int id);

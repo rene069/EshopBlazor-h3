@@ -3,6 +3,7 @@
 @using EshopBlazor.Services
 @inject IProduktServices _Produktservices
 @inject NavigationManager Navigation
+@inject IJSRuntime JsRuntime
 
 
 <PageTitle>Index</PageTitle>
@@ -19,17 +20,19 @@
         <div class="card-body">
             <h5 class="card-title">@item.ProduktName</h5>
             <p class="card-text">@item.Description</p>
-            <p class="card-text">@item.Price Kr.</p>            
-                <a class="btn btn-primary">Go to Product</a>
-            <button class="btn btn-sm btn-primary" @onclick='() => Navigation.NavigateTo($"/EditProdukt/{item.ProduktId}")'>Edit</button>
-                <button type="submit" asp-route-productId="@item.ProduktId" asp-page-handler="AddToCart" class="btn btn-primary">Add to Cart</button>
+            <p class="card-text">@item.Price Kr.</p>
+            <button class="btn btn-primary" @onclick='() => Navigation.NavigateTo($"/ProduktDetail/{item.ProduktId}")'>Go to Product</button>
+            <button class="btn btn-primary" @onclick='() => Navigation.NavigateTo($"/EditProdukt/{item.ProduktId}")'>Edit</button>
+            <button @onclick="() => DeleteProdukt(item.ProduktId)" class="btn btn-danger">Delete Produkt</button>
+            <button></button>
+
         </div>
     </div>
 }
 
 
-@code{
-    public List<Produkt> produktDTOs = new();
+@code {
+    public List<ProduktDTO> produktDTOs = new();
 
 
     protected override async Task OnInitializedAsync()
@@ -37,5 +40,12 @@
         produktDTOs = await _Produktservices.GetProduktsAsync();
 
         await base.OnInitializedAsync();
+    }
+
+    public async Task DeleteProdukt(int id)
+    {
+        if (!await JsRuntime.InvokeAsync<bool>("confirm", $"Are you aure you wanna delete this Produkt?")) { return; }
+        await _Produktservices.DeleteProdukt(id);
+        produktDTOs = await _Produktservices.GetProduktsAsync();
     }
 }

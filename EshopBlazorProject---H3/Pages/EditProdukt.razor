@@ -1,9 +1,26 @@
 ﻿@page "/EditProdukt/{Id:int}"
+@inject IProduktServices _ProduktServices
+@inject IToastService toastservice
+
 <h3>EditProdukt</h3>
 
-<EshopBlazor.Component.ProduktFormComponent Id="Id"></EshopBlazor.Component.ProduktFormComponent>
+<ProduktFormComponent ValidSubmit="EditProduktAsync" Id="Id"></ProduktFormComponent>
 
 @code {
     [Parameter]
     public int Id { get; set; }
+
+    public async void EditProduktAsync(ProduktDTO produkt)
+    {
+       
+        try
+        {
+            await _ProduktServices.EditProduktAsync(produkt);
+            toastservice.ShowSuccess($"{produkt.ProduktName} has been Updated");
+        }
+        catch (Exception)
+        {
+            toastservice.ShowError("Something Went wrong when Creating Produkt");
+        }
+    }
 }

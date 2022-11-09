@@ -65,9 +65,9 @@ namespace ServiceLayer.Repository
             return null;
         }
 
+        public ProduktDto ProduktToDTO(int id) => _eShopContext.Produkts.Where(x => x.ProduktId == id).Include(x => x.Brand).Include(x => x.Type).FirstOrDefault().MapProduktToDto();
 
-
-        public List<ProduktDto> ProduktsToProduktListDto() => _eShopContext.Produkts.Include(x => x.Brand).Include(x => x.Type).MapProduktToDto().ToList();
+        public List<ProduktDto> ProduktsToProduktListDto() => _eShopContext.Produkts.Include(x => x.Brand).Include(x => x.Type).MapProduktsToDto().ToList();
         public List<Brand> GetAllBrands() => _eShopContext.Brands.ToList();
         public List<Types> GetAllTypes() => _eShopContext.Types.ToList();
 

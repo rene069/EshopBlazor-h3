@@ -1,6 +1,4 @@
-﻿@using EshopBlazor.Models
-@using EshopBlazor.Services
-@inject IProduktServices _ProduktServices
+﻿@inject IProduktServices _ProduktServices
 <h3>ProduktFormComponent</h3>
 
 
@@ -61,13 +59,14 @@
 
 
 @code {
-    public Produkt produkt { get; set; } = new();
+    public ProduktDTO produkt { get; set; } = new();
 
     public List<BrandDTO> Brands { get; set; } = new();
     public List<TypesDTO> Types { get; set; } = new();
 
     [Parameter] public int Id { get; set; } = 0;
 
+    [Parameter] public EventCallback<ProduktDTO> ValidSubmit { get; set; }
     protected override async Task OnInitializedAsync()
     {
         if (Id != 0)
@@ -81,6 +80,6 @@
 
     public async Task HandleValidSubmit()
     {
-        await _ProduktServices.CreateProduktAsync(produkt);
+        await ValidSubmit.InvokeAsync(produkt);
     }
 }

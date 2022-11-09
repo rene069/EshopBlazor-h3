@@ -1,16 +1,20 @@
-﻿namespace EshopBlazor.Models
+﻿using System;
+
+namespace EshopBlazor.Models
 {
     public class ProduktDTO
     {
-        //TODO: redesign dto
         public int ProduktId { get; set; }
         public string ProduktName { get; set; }
-        public string BrandName { get; set; }
+        public string Description { get; set; } = "bla bla bla description";
         public decimal Price { get; set; }
-        public string ImageUrl { get; set; }
-        public string TypeName { get; set; }
         public int BrandId { get; set; }
         public int TypesId { get; set; }
-        public bool IsSoftDeleted { get; set; }
+        public string? ImageURL { get; set; }
+        public bool IsSoftDeleted { get; set; } = false;
+
+        public BrandDTO? Brand { get; set; }
+        public TypesDTO? Type { get; set; }
+
     }
 }

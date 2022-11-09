@@ -11,26 +11,39 @@ namespace EshopBlazor.Services
             _httpClient = httpClient;
         }
 
-        public async Task CreateProduktAsync(Produkt produktDTO)
+        public async Task CreateProduktAsync(ProduktDTO produkt)
         {
-            var response = await _httpClient.PostAsJsonAsync<Produkt>("/produkts/CreateProdukt", produktDTO);
+            var response = await _httpClient.PostAsJsonAsync<ProduktDTO>("/produkts/CreateProdukt", produkt);
 
             response.EnsureSuccessStatusCode();
 
 
         }
-
-        public async Task<List<Produkt>> GetProduktsAsync()
+        
+        public async Task<ProduktShown> GetProduktShownAsync(int id)
         {
-            var items = await _httpClient.GetFromJsonAsync<List<Produkt>>("/Produkts/GetProdukts");
+            var response = await _httpClient.GetFromJsonAsync<ProduktShown>($"/produkts/GetProduktDtoById?id={id}");
+          
+            return response;
+        }
+        public async Task EditProduktAsync(ProduktDTO produkt)
+        {
+            var response = await _httpClient.PutAsJsonAsync<ProduktDTO>("/Produkts/UpdateProdukt", produkt);
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task<List<ProduktDTO>> GetProduktsAsync()
+        {
+            var items = await _httpClient.GetFromJsonAsync<List<ProduktDTO>>("/Produkts/GetProdukts");
 
             return items.AsQueryable().ToList();
 
         }
 
-        public async Task<Produkt> GetProduktByIdAsync(int id)
+        public async Task<ProduktDTO> GetProduktByIdAsync(int id)
         {
-            var items = await _httpClient.GetFromJsonAsync<Produkt>($"/Produkts/GetProduktById?id={id}");
+            var items = await _httpClient.GetFromJsonAsync<ProduktDTO>($"/Produkts/GetProduktById?id={id}");
 
 
 

@@ -5,6 +5,6 @@
         public int BrandId { get; set; }
         public string BrandName { get; set; }
 
-        public List<Produkt> Produkts { get; set; }
+        public List<ProduktDTO> Produkts { get; set; }
     }
 }

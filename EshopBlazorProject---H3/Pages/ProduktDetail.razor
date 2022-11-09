@@ -1,22 +1,27 @@
-﻿@page "/Produkt/{id:int}"
-@using EshopBlazor.Models
+﻿@page "/ProduktDetail/{id:int}"
+@inject IProduktServices _ProduktServices
+@inject NavigationManager Navigation
 
 <h3>ProduktDetail</h3>
-
+@Produkt.ProduktName
+@Produkt.Price
+@Produkt.ImageUrl
+@Produkt.BrandName
+@Produkt.TypeName
+@Produkt.Description
 @code {
-
     [Parameter]
-    public int id { get; set; }
+    public int id { get; set; } = 0;
 
-    public Produkt Produkt { get; set; }
+    public ProduktShown Produkt { get; set; } = new();
 
 
     protected override async Task OnInitializedAsync()
     {
-        //Produkt = await _TodoService.GetTodoItemAsync(ItemId);
-
-        
-
+        if (id != 0)
+        {
+            Produkt = await _ProduktServices.GetProduktShownAsync(id);
+        }
         await base.OnInitializedAsync();
     }
 }

@@ -1,13 +1,12 @@
 ﻿@page "/CreateProdukt"
-@using EshopBlazor.Models
-@using EshopBlazor.Services
 @inject IProduktServices _ProduktServices
+@inject IToastService toastservice
 <h3>CreateProdukt</h3>
 
-<EshopBlazor.Component.ProduktFormComponent></EshopBlazor.Component.ProduktFormComponent>
+<ProduktFormComponent ValidSubmit="CreateProduktAsync"></ProduktFormComponent>
 
 @code {
-    public Produkt produkt { get; set; } = new();
+    public ProduktDTO Produkt { get; set; } = new();
 
     public List<BrandDTO> Brands { get; set; } = new();
     public List<TypesDTO> Types { get; set; } = new();
@@ -20,9 +19,19 @@
         await base.OnInitializedAsync();
     }
 
-    public async Task HandleValidSubmit()
+
+    public async void CreateProduktAsync(ProduktDTO produkt)
     {
-        await _ProduktServices.CreateProduktAsync(produkt);
+        try
+        {
+            await _ProduktServices.CreateProduktAsync(produkt);
+            toastservice.ShowSuccess($"{produkt.ProduktName} has been Created");
+        }
+        catch (Exception)
+        {
+            toastservice.ShowError("Something Went wrong when Creating Produkt");
+        }
+      
     }
 
 }
