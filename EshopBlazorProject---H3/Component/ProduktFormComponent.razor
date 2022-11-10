@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
 @inject IProduktServices _ProduktServices
-
 <h3>ProduktFormComponent</h3>
 
 
@@ -91,25 +90,26 @@
 
     public async Task HandleValidSubmit()
     {
-
+        string path = @"\wwwroot\Uploads";
         if (Upload != null)
         {
-            var path = $"wwwroot\\{Upload.Name}";
-            using (Stream stream = Upload.OpenReadStream(maxAllowedSize))
+            var file = Path.Combine(Directory.GetCurrentDirectory(),path, Upload.Name + Path.GetExtension(Upload.ContentType));
+            
+
+            using(Stream stream = Upload.OpenReadStream(maxAllowedSize))
             {
+
                 FileStream fs = File.Create(path);
                 await stream.CopyToAsync(fs);
                 stream.Close();
                 fs.Close();
 
+                produkt.ImageURL = path;
 
             }
 
-            produkt.ImageURL = path;
         }
         
         await ValidSubmit.InvokeAsync(produkt);
     }
 }
-
-    @*C:\Users\renep\Source\Repos\rene069\EshopBlazor-h3\EshopBlazorProject---H3\wwwroot\Images*@

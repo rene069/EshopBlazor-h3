@@ -7,6 +7,7 @@
 
 
 
+
 <PageTitle>Index</PageTitle>
 
 
@@ -46,9 +47,22 @@
 
     public async Task AddToCart(ProduktDTO produktDTO)
     {
-        cart = await localStore.GetItemAsync<Cart>("cart");
-        cart.Produkts.Add(produktDTO);
-        await localStore.SetItemAsync<Cart>("cart",cart);
+        if ( await localStore.GetItemAsync<Cart>("cart") != null)
+        {
+            cart = await localStore.GetItemAsync<Cart>("cart");
+        }
+        
+        try
+        {
+            cart.Produkts.Add(produktDTO);
+            await localStore.SetItemAsync<Cart>("cart", cart);
+            toastservice.ShowSuccess($"{produktDTO.ProduktName} has been Added To cart");
+        }
+        catch (Exception)
+        {
+            toastservice.ShowError("Something Went wrong when adding produkt to cart");
+        }
+       
         
 
     }

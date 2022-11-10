@@ -27,7 +27,7 @@
 
          <div class="nav-item px-3">
             <NavLink class="nav-link" href="Shoppingcart">
-                <span class="oi oi-plus" aria-hidden="true"></span>ShoppingCart: @Cart.Produkts.Count()
+                <span class="oi oi-plus" aria-hidden="true"></span>ShoppingCart: @ShoppingCart.Produkts.Count()              
             </NavLink>
         </div>
        
@@ -36,12 +36,16 @@
 
 @code {
 
-    public Cart Cart { get; set; } = new();
+    public Cart ShoppingCart { get; set; } = new();
 
 
     protected override async Task OnInitializedAsync()
     {
-        Cart = await localStore.GetItemAsync<Cart>("cart");
+        if (await localStore.GetItemAsync<Cart>("cart") != null)
+        {
+            ShoppingCart = await localStore.GetItemAsync<Cart>("cart");
+        }
+       
         
     }
 

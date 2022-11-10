@@ -1,20 +1,52 @@
 ﻿@page "/ProduktDetail/{id:int}"
 @inject IProduktServices _ProduktServices
-@inject NavigationManager Navigation
+
+@inject IToastService toastservice
 
 <h3>ProduktDetail</h3>
-@Produkt.ProduktName
-@Produkt.Price
-@Produkt.ImageUrl
-@Produkt.BrandName
-@Produkt.TypeName
-@Produkt.Description
+<div class="container">
+    <div class="card">
+        <div class="container-fliud">
+            <div class="wrapper row">
+                <div class="preview col-md-6">
+
+                    <div class="preview-pic tab-content">
+                        <div class="tab-pane active" id="pic-1"><img src="@Produkt.ImageUrl" /></div>
+                    </div>
+
+                </div>
+                <div class="details col-md-6">
+                    <h3 class="product-title">@Produkt.ProduktName</h3>
+                    <div class="rating">
+                        <div class="stars">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                        </div>
+                        <span class="review-no">Brand: @Produkt.BrandName Type: @Produkt.TypeName</span>
+                    </div>
+                    <p class="product-description">@Produkt.Description</p>
+                    <h4 class="price">current price: <span>@Produkt.Price</span></h4>
+
+                    <div class="action">
+                        <button class="add-to-cart btn btn-primary">add to cart</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @code {
     [Parameter]
     public int id { get; set; } = 0;
 
     public ProduktShown Produkt { get; set; } = new();
-
+    public Cart cart { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -22,6 +54,27 @@
         {
             Produkt = await _ProduktServices.GetProduktShownAsync(id);
         }
-        await base.OnInitializedAsync();
+    }
+
+    public async Task AddToCart(int Id)
+    {
+
+        if (await localStore.GetItemAsync<Cart>("cart") != null)
+        {
+            cart = await localStore.GetItemAsync<Cart>("cart");
+        }
+        try
+        {
+            cart.Produkts.Add(await _ProduktServices.GetProduktByIdAsync(Id));
+            await localStore.SetItemAsync<Cart>("cart", cart);
+            toastservice.ShowSuccess($"{Produkt.ProduktName} has been Added To cart");
+        }
+        catch (Exception)
+        {
+            toastservice.ShowError("Something Went wrong when adding produkt to cart");
+        }
+
+
+
     }
 }

@@ -7,7 +7,7 @@
     @if (Cart != null)
     {
         <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Your products</h3>
-        <form method="post">
+   
             @foreach (var item in Cart.Produkts)
             {
                 <div class="d-flex align-items-center mb-5">
@@ -25,12 +25,8 @@
                         <div class="d-flex align-items-center">
                             <p class="fw-bold mb-0 me-5 pe-3">pr Stk. @item.Price</p>
                             <div class="def-number-input number-input safari_only">
-                                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                class="minus"></button>
-                               @* <input class="quantity fw-bold text-black" asp-for="@Model.NewUserProdukts[counter].Quantity" value="@item.Quantity" min="0"*@
-                            @*   type="number">*@
-                                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                class="plus"></button>
+           
+                          
                             </div>
                         </div>
                     </div>
@@ -39,8 +35,8 @@
 
 
             }
-            <button type="submit" class="btn btn-primary" asp-page-handler="Update">Update</button>
-        </form>
+            <button @onclick="ClearCart" class="btn btn-primary" >Clear Cart</button>
+    
         <hr class="mb-4" style="height: 2px; background-color: #1266f1; opacity: 1;">
 
 
@@ -67,5 +63,11 @@
     {
         Cart = await localStore.GetItemAsync<Cart>("cart");
 
+    }
+
+    public async Task ClearCart()
+    {
+        Cart = new();
+        await localStore.SetItemAsync<Cart>("cart", Cart);
     }
 }
