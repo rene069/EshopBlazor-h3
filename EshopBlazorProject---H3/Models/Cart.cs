@@ -3,8 +3,6 @@
     public class Cart
     {
         public List<ProduktDTO> Produkts { get; set; } = new();
-
-
         public Decimal Total
         {
             get
