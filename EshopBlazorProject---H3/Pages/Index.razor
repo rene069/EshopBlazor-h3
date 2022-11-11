@@ -5,14 +5,7 @@
 @inject NavigationManager Navigation
 @inject IJSRuntime JsRuntime
 
-
-
-
 <PageTitle>Index</PageTitle>
-
-
-
-
 
 
 @foreach (var item in produktDTOs)
@@ -26,7 +19,7 @@
             <button class="btn btn-primary" @onclick='() => Navigation.NavigateTo($"/ProduktDetail/{item.ProduktId}")'>Go to Product</button>
             <button class="btn btn-primary" @onclick='() => Navigation.NavigateTo($"/EditProdukt/{item.ProduktId}")'>Edit</button>
             <button @onclick="() => DeleteProdukt(item.ProduktId)" class="btn btn-danger">Delete Produkt</button>
-            <button @onclick="() =>AddToCart(item)" class="btn btn-primary">Add to cart</button>
+            <button @onclick="() => AddToCart(item)" class="btn btn-primary">Add to cart</button>
 
         </div>
     </div>

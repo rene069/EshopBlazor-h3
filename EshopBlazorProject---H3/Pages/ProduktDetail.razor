@@ -31,7 +31,7 @@
                     <h4 class="price">current price: <span>@Produkt.Price</span></h4>
 
                     <div class="action">
-                        <button class="add-to-cart btn btn-primary">add to cart</button>
+                        <button @onclick="() => AddToCart(Produkt.ProduktId)" class="add-to-cart btn btn-primary">add to cart</button>
 
                     </div>
                 </div>

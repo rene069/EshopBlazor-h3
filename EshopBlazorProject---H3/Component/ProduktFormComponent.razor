@@ -68,6 +68,8 @@
     long maxAllowedSize = 2000000000;
     public IBrowserFile Upload { get; set; }
 
+    //List<ImageFile> filesBase64 = new List<ImageFile>(); Not Working
+
     [Parameter] public int Id { get; set; } = 0;
 
     [Parameter] public EventCallback<ProduktDTO> ValidSubmit { get; set; }
@@ -90,26 +92,45 @@
 
     public async Task HandleValidSubmit()
     {
-        string path = @"\wwwroot\Uploads";
+        string path = @"\wwwroot\Uploads\";
         if (Upload != null)
         {
-            var file = Path.Combine(Directory.GetCurrentDirectory(),path, Upload.Name + Path.GetExtension(Upload.ContentType));
-            
+            produkt.ImageURL = path + Upload.Name;
 
-            using(Stream stream = Upload.OpenReadStream(maxAllowedSize))
-            {
+            #region Not Working Upload
+            //var file = Path.Combine(Directory.GetCurrentDirectory(),path, Upload.Name + Path.GetExtension(Upload.ContentType));
 
-                FileStream fs = File.Create(path);
-                await stream.CopyToAsync(fs);
-                stream.Close();
-                fs.Close();
-
-                produkt.ImageURL = path;
-
-            }
-
+            //var resizedFile = await Upload.RequestImageFileAsync(Upload.ContentType, 640, 480); // resize the image file
+            //var buf = new byte[resizedFile.Size]; // allocate a buffer to fill with the file's data
+            //using (var stream = resizedFile.OpenReadStream(maxAllowedSize))
+            //{
+            //    await stream.ReadAsync(buf); // copy the stream to the buffer
+            //}
+            //filesBase64.Add(new ImageFile { base64data = Convert.ToBase64String(buf), contentType = Upload.ContentType, fileName = Upload.Name });
+            //await UploadPicture(filesBase64);
+            #endregion
+           
         }
-        
+
         await ValidSubmit.InvokeAsync(produkt);
     }
+    #region Not Working Upload
+    //public async Task UploadPicture(List<ImageFile> files)
+    //{
+    //    foreach (var file in files)
+    //    {
+    //        try
+    //        {
+    //            var buf = Convert.FromBase64String(file.base64data);
+    //            await System.IO.File.WriteAllBytesAsync(@"C:\Users\renep\Source\Repos\rene069\EshopBlazor-h3\EshopBlazorProject---H3\wwwroot\Uploads", buf);
+
+    //        }
+    //        catch (Exception)
+    //        {
+
+    //            throw;
+    //        }
+    //    }
+    //}
+    #endregion
 }

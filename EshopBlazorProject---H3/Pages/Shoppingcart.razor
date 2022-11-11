@@ -4,52 +4,45 @@
 <div class="col-lg-6 px-5 py-4">
 
 
-    @if (Cart != null)
-    {
+    
         <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Your products</h3>
-   
-            @foreach (var item in Cart.Produkts)
-            {
-                <div class="d-flex align-items-center mb-5">
 
-                    <div class="flex-shrink-0">
-                        <img src="@item.ImageURL"
-                     class="img-fluid" style="width: 150px;" alt="Generic placeholder image">
-                    </div>
+        @foreach (var item in Cart.Produkts)
+        {
+            <div class="d-flex align-items-center mb-5">
 
-                   
-                    <div class="flex-grow-1 ms-3">
-                        <a href="#!" class="float-end text-black"><i class="fas fa-times"></i></a>
-                        <h5 class="text-primary">@item.ProduktName</h5>
-                        <h6 style="color: #9e9e9e;">Color: white</h6>
-                        <div class="d-flex align-items-center">
-                            <p class="fw-bold mb-0 me-5 pe-3">pr Stk. @item.Price</p>
-                            <div class="def-number-input number-input safari_only">
-           
-                          
-                            </div>
-                        </div>
-                    </div>
-
+                <div class="flex-shrink-0">
+                    <img src="@item.ImageURL"
+                 class="img-fluid" style="width: 150px;" alt="Generic placeholder image">
                 </div>
 
 
-            }
-            <button @onclick="ClearCart" class="btn btn-primary" >Clear Cart</button>
-    
+                <div class="flex-grow-1 ms-3">
+                    <a href="#!" class="float-end text-black"><i class="fas fa-times"></i></a>
+                    <h5 class="text-primary">@item.ProduktName</h5>
+                    <h6 style="color: #9e9e9e;">Color: white</h6>
+                    <div class="d-flex align-items-center">
+                        <p class="fw-bold mb-0 me-5 pe-3">pr Stk. @item.Price</p>
+                        <div class="def-number-input number-input safari_only">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        }
+        <button @onclick="ClearCart" class="btn btn-primary">Clear Cart</button>
+
         <hr class="mb-4" style="height: 2px; background-color: #1266f1; opacity: 1;">
 
 
         <div class="d-flex justify-content-between p-2 mb-2" style="background-color: #e1f5fe;">
-            <h5 class="fw-bold mb-0">Total: @Cart.Total</h5>
-            <shopping-cart-total user-produkts="Model.UserProdukts"></shopping-cart-total>
+            <h5 class="fw-bold mb-0">Total: @Cart.Total</h5>            
         </div>
 
-    }
-    else
-    {
-        <h5>Your ShoppingCart is empty</h5>
-    }
+    
+
 
 </div>
 
@@ -65,9 +58,28 @@
 
     }
 
-    public async Task ClearCart()
+    public async Task AddToCart(ProduktDTO produktDTO)
     {
-        Cart = new();
-        await localStore.SetItemAsync<Cart>("cart", Cart);
+        if (await localStore.GetItemAsync<Cart>("cart") != null)
+        {
+            Cart = await localStore.GetItemAsync<Cart>("cart");
+        }
+
+        try
+        {
+            Cart.Produkts.Add(produktDTO);
+            await localStore.SetItemAsync<Cart>("cart", Cart);
+            toastservice.ShowSuccess($"{produktDTO.ProduktName} has been Added To cart");
+        }
+        catch (Exception)
+        {
+            toastservice.ShowError("Something Went wrong when adding produkt to cart");
+        }
     }
-}
+
+        public async Task ClearCart()
+        {
+            Cart = new();
+            await localStore.SetItemAsync<Cart>("cart", Cart);
+        }
+    }
